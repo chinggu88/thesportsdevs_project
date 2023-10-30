@@ -2,9 +2,10 @@ import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hrm_project/dio_helper.dart';
-import 'package:hrm_project/models/next_home_match_item.dart';
+import 'package:hrm_project/constant/dio_helper.dart';
+import 'package:hrm_project/model/next_home_match_item.dart';
 
+// state = List<NextHomeMatchItem>
 final nextHomeMatchProvier =
     StateNotifierProvider<NextHomeMatchNotifier, List<NextHomeMatchItem>>(
         (ref) => NextHomeMatchNotifier());

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hrm_project/app_utils.dart';
-import 'package:hrm_project/controllers/next_home_match_controller.dart';
-import 'package:hrm_project/views/second_view.dart';
+import 'package:hrm_project/constant/app_utils.dart';
+import 'package:hrm_project/riverpod/viewmodel/next_home_match_notifier.dart';
+import 'package:hrm_project/riverpod/view/second_view.dart';
 
 class MainView extends ConsumerStatefulWidget {
   const MainView({super.key});

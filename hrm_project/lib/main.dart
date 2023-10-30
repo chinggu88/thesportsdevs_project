@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hrm_project/app_utils.dart';
-import 'package:hrm_project/views/main_view.dart';
-import 'package:hrm_project/views/second_view.dart';
-
-import 'controllers/next_home_match_controller.dart';
+import 'package:hrm_project/riverpod/view/main_view.dart';
 
 void main() {
   runApp(ProviderScope(child: MyApp()));
