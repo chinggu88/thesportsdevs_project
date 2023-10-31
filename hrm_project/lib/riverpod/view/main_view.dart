@@ -4,7 +4,6 @@ import 'package:hrm_project/constant/app_utils.dart';
 import 'package:hrm_project/riverpod/viewmodel/next_home_match_notifier.dart';
 import 'package:hrm_project/riverpod/view/second_view.dart';
 
-
 class MainView extends ConsumerStatefulWidget {
   const MainView({super.key});
 
@@ -22,7 +21,6 @@ class _MainView extends ConsumerState {
   @override
   Widget build(BuildContext context) {
     int dataLength = ref.watch(nextHomeMatchProvier).length;
-    int index = re
     print('dataLength : ${dataLength}');
     return dataLength == 0
         ? Center(

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "257158880441",
+    "project_id": "hrm-thesports",
+    "storage_bucket": "hrm-thesports.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:257158880441:android:9847ad6b0ce8073aae0f68",
+        "android_client_info": {
+          "package_name": "com.example.hrm_project"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCZkPy5uTzxTd4IRVGr3puJapvtX70VkKI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
