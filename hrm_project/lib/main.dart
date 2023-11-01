@@ -7,6 +7,7 @@ import 'package:hrm_project/riverpod/view/main_view.dart';
 
 void main() async {
   // firebase init
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
