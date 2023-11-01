@@ -19,7 +19,8 @@ class NextHomeMatchNotifier extends StateNotifier<List<NextHomeMatchItem>> {
         print('딜레이 : ${state.length}');
       });
       print('데이터 호출');
-      Response response = await dio.get('/nav/next_home_match');
+
+      Response response = await DioHelper.getApi('/nav/next_home_match');
       NextHomeMatchList nextHomeMatchList =
           NextHomeMatchList.fromJson(response.data);
       state = nextHomeMatchList.data as List<NextHomeMatchItem>;
