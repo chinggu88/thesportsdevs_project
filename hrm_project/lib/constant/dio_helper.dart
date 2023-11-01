@@ -10,7 +10,7 @@ class DioHelper {
     baseUrl: 'https://api-jbhd.thesports.io', // 개발서버
   ));
   static final Dio kdio = Dio(BaseOptions(
-    baseUrl: 'https://api-jbhd.thesports.io', // 개발서버
+    baseUrl: 'https://stage-api.tigers.co.kr', // 개발서버
   ));
 
   static Future<Response> getApi(String url) async {
@@ -43,7 +43,7 @@ class DioHelper {
     return res;
   }
 
-  Future<Response> kgetApi(String url) async {
+  static Future<Response> kgetApi(String url) async {
     Response res;
     try {
       res = await kdio.get(url);
