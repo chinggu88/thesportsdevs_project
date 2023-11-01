@@ -4,10 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hrm_project/controller/app_contoller.dart';
 import 'package:hrm_project/controller/main_controller.dart';
+import 'package:hrm_project/view/workation_view.dart';
 
 class MainView extends GetView<MainController> {
-  const MainView({super.key});
-
+  MainView({super.key});
+  List<Widget> maincontent = [workation_view(), workation_view()];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,69 +16,26 @@ class MainView extends GetView<MainController> {
         title: Text('Main'),
       ),
       body: Center(
-        child: Column(
-          children: [
-            IconButton(
-                onPressed: () {
-                  // Get.toNamed('/kiamembers');
-                  Get.offNamed('/kiamembers');
-                },
-                icon: Icon(Icons.move_down)),
-            name(),
-            IconButton(
-                onPressed: () {
-                  controller.name = 'change name';
-                },
-                icon: Icon(Icons.change_circle)),
-            score(),
-            IconButton(
-                onPressed: () {
-                  controller.score = 81;
-                },
-                icon: Icon(Icons.scale)),
-            check(),
-            IconButton(
-                onPressed: () {
-                  controller.ischeck = !controller.ischeck;
-                },
-                icon: Icon(Icons.scale)),
-            idext(),
-            IconButton(
-                onPressed: () {
-                  ApopController.to.index++;
-                },
-                icon: Icon(Icons.scale)),
-          ],
-        ),
+        child: maincontent[controller.naviindex],
       ),
+      bottomNavigationBar: navi(),
     );
   }
 
-  Obx name() {
-    return Obx(() {
-      log('chagne name');
-      return Text('${controller.name}');
-    });
-  }
-
-  Obx score() {
-    return Obx(() {
-      log('chagne score');
-      return Text('${controller.score}');
-    });
-  }
-
-  Obx check() {
-    return Obx(() {
-      log('chagne check');
-      return controller.ischeck ? Text('확인') : Text('취소');
-    });
-  }
-
-  Obx idext() {
+  Obx navi() {
     return Obx(() {
       log('chagne check11');
-      return Text('${ApopController.to.index}');
+      return BottomNavigationBar(
+          currentIndex: controller.naviindex,
+          onTap: (index) {
+            controller.naviindex = index;
+          },
+          items: [
+            BottomNavigationBarItem(
+                icon: Icon(Icons.work_history), label: '출퇴근'),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.task_outlined), label: '휴가'),
+          ]);
     });
   }
 }

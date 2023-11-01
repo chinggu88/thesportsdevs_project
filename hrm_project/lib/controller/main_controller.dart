@@ -4,11 +4,11 @@ import 'package:hrm_project/model/playerinfo.dart';
 class MainController extends GetxController {
   static MainController get to => Get.find();
 
-  final _number = 0.obs;
+  final _naviindex = 0.obs;
 
-  ///int
-  int get number => _number.value;
-  set number(int value) => _number.value = value;
+  ///네비게이션 인덱스
+  int get naviindex => _naviindex.value;
+  set naviindex(int value) => _naviindex.value = value;
 
   final _name = 'thesportdev'.obs;
 
@@ -52,6 +52,4 @@ class MainController extends GetxController {
     // TODO: implement dispose
     super.dispose();
   }
-
-  void aaa() {}
 }

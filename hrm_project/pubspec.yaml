@@ -42,6 +42,7 @@ dependencies:
   dio: ^5.2.0+1                         # 디오 (http통신)
   firebase_core: ^2.20.0
   get:                                #상태관리
+  o3d: ^1.1.1                         #3d모델링처리
 dev_dependencies:
   build_runner: ^2.4.5                # json 직렬화
   json_serializable: ^6.7.0           # json 직렬화
@@ -68,8 +69,8 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
+  assets:
+    - assets/models/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
