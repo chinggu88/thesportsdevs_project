@@ -31,13 +31,30 @@ class workationcontroller extends GetxController {
   int get pageindex => _pageindex.value;
   set pageindex(int value) => _pageindex.value = value;
 
+  final _leavedate = DateTime.now().obs;
+
+  ///단일 휴가
+  DateTime get leavedate => _leavedate.value;
+  set leavedate(DateTime value) => _leavedate.value = value;
+
+  final _singleleave = false.obs;
+
+  ///단일 날짜 선택 유무
+  bool get singleleave => _singleleave.value;
+  set singleleave(bool value) => _singleleave.value = value;
+
+  final _test = DateTime.now().obs;
+
+  ///test
+  DateTime get test => _test.value;
+  set test(DateTime value) => _test.value = value;
+
   O3DController o3d = O3DController();
 
   @override
   void onInit() {
     // TODO: implement onInit
     super.onInit();
-    log(' kiamembercontroller onInit');
     // /v3/game/playerList?gameSearch.position=포
   }
 
@@ -45,8 +62,6 @@ class workationcontroller extends GetxController {
   Future<void> onReady() async {
     // TODO: implement onReady
     super.onReady();
-    log(' kiamembercontroller onReady');
-
     // final res =
     //     await DioHelper.kgetApi('/v3/game/playerList?gameSearch.position=포');
     // res.data['body']['itemList'].forEach((e) {
@@ -56,10 +71,18 @@ class workationcontroller extends GetxController {
     // });
   }
 
+  void initleave() {
+    _singleleave.value = false;
+  }
+
   void startleave() {
-    log('startleave');
     _pageindex.value = 2;
     o3d.cameraTarget(0.1, -1.7, -8);
+  }
+
+  void startleavelist() {
+    _pageindex.value = 3;
+    o3d.cameraTarget(-2.2, -1, -8);
   }
 
   void close() {
