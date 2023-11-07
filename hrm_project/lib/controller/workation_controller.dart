@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hrm_project/constant/dio_helper.dart';
 import 'package:hrm_project/model/playerinfo.dart';
+import 'package:hrm_project/model/vacation.dart';
 import 'package:o3d/o3d.dart';
 
 class workationcontroller extends GetxController {
@@ -31,7 +32,7 @@ class workationcontroller extends GetxController {
   int get pageindex => _pageindex.value;
   set pageindex(int value) => _pageindex.value = value;
 
-  final _leavedate = DateTime.now().obs;
+  final _leavedate = DateTime.parse('${DateTime.now().year}1131').obs;
 
   ///단일 휴가
   DateTime get leavedate => _leavedate.value;
@@ -42,6 +43,15 @@ class workationcontroller extends GetxController {
   ///단일 날짜 선택 유무
   bool get singleleave => _singleleave.value;
   set singleleave(bool value) => _singleleave.value = value;
+
+  final _vacationlist = <Vacation>[].obs;
+
+  ///휴가 히스토리
+  List<Vacation> get vacationlist => _vacationlist;
+  set vacationlist(List<Vacation> value) {
+    _vacationlist.clear();
+    _vacationlist.addAll(value);
+  }
 
   final _test = DateTime.now().obs;
 
@@ -55,7 +65,12 @@ class workationcontroller extends GetxController {
   void onInit() {
     // TODO: implement onInit
     super.onInit();
-    // /v3/game/playerList?gameSearch.position=포
+    vacationlist.addAll([
+      Vacation(
+        name: '이강훈',
+        vacationType: '0',
+      )
+    ]);
   }
 
   @override
@@ -82,11 +97,12 @@ class workationcontroller extends GetxController {
 
   void startleavelist() {
     _pageindex.value = 3;
-    o3d.cameraTarget(-2.2, -1, -8);
+    o3d.cameraTarget(-2.5, -1, -8);
   }
 
   void close() {
     _pageindex.value = 1;
+    singleleave = false;
     o3d.cameraTarget(0, 0, 0);
   }
 }

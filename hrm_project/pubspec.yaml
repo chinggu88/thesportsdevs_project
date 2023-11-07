@@ -43,7 +43,8 @@ dependencies:
   firebase_core: ^2.20.0
   get:                                #상태관리
   o3d: ^1.1.1                         #3d모델링처리
-  calendar_date_picker2: ^0.5.3
+  table_calendar: ^3.0.9
+  intl: ^0.18.1
 dev_dependencies:
   build_runner: ^2.4.5                # json 직렬화
   json_serializable: ^6.7.0           # json 직렬화
