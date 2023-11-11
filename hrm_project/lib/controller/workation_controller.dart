@@ -6,7 +6,6 @@ import 'package:get/get.dart';
 import 'package:hrm_project/constant/dio_helper.dart';
 import 'package:hrm_project/model/playerinfo.dart';
 import 'package:hrm_project/model/vacation.dart';
-import 'package:o3d/o3d.dart';
 
 class workationcontroller extends GetxController {
   static workationcontroller get to => Get.find();
@@ -20,89 +19,117 @@ class workationcontroller extends GetxController {
     _playerlist.addAll(value);
   }
 
-  final _pagelist = 2.obs;
+  final _types = ['연차', '오후반차', '오전반차', '일차', '교육 및 훈련', '공가', '병가'].obs;
 
-  ///List<Playerinfo> class
-  int get pagelist => _pagelist.value;
-  set pagelist(int value) => _pagelist.value = value;
-
-  final _pageindex = 1.obs;
-
-  ///List<Playerinfo> class
-  int get pageindex => _pageindex.value;
-  set pageindex(int value) => _pageindex.value = value;
-
-  final _leavedate = DateTime.parse('${DateTime.now().year}1131').obs;
-
-  ///단일 휴가
-  DateTime get leavedate => _leavedate.value;
-  set leavedate(DateTime value) => _leavedate.value = value;
-
-  final _singleleave = false.obs;
-
-  ///단일 날짜 선택 유무
-  bool get singleleave => _singleleave.value;
-  set singleleave(bool value) => _singleleave.value = value;
-
-  final _vacationlist = <Vacation>[].obs;
-
-  ///휴가 히스토리
-  List<Vacation> get vacationlist => _vacationlist;
-  set vacationlist(List<Vacation> value) {
-    _vacationlist.clear();
-    _vacationlist.addAll(value);
+  ///연차종류
+  List<String> get types => _types;
+  set types(List<String> value) {
+    _types.clear();
+    _types.addAll(value);
   }
 
-  final _test = DateTime.now().obs;
+  final _selecttype = '연차'.obs;
 
-  ///test
-  DateTime get test => _test.value;
-  set test(DateTime value) => _test.value = value;
+  ///연차 선택 값
+  String get selecttype => _selecttype.value;
+  set selecttype(String value) => _selecttype.value = value;
 
-  O3DController o3d = O3DController();
+  final _shour = <String>[].obs;
+
+  ///휴가시작시간(시)
+  List<String> get shour => _shour;
+  set shour(List<String> value) {
+    _shour.clear();
+    _shour.addAll(value);
+  }
+
+  final _sminute = <String>[].obs;
+
+  ///휴가시작시간(분)
+  List<String> get sminute => _sminute;
+  set sminute(List<String> value) {
+    _sminute.clear();
+    _sminute.addAll(value);
+  }
+
+  final _ehour = <String>[].obs;
+
+  ///휴가마지막시간(시)
+  List<String> get ehour => _ehour;
+  set ehour(List<String> value) {
+    _ehour.clear();
+    _ehour.addAll(value);
+  }
+
+  final _eminute = <String>[].obs;
+
+  ///휴가마지막시간(분)
+  List<String> get eminute => _eminute;
+  set eminute(List<String> value) {
+    _eminute.clear();
+    _eminute.addAll(value);
+  }
+
+  final _selectShours = '09'.obs;
+
+  ///연차 시작 시간
+  String get selectShours => _selectShours.value;
+  set selectShours(String value) => _selectShours.value = value;
+
+  final _selectSminute = '00'.obs;
+
+  ///연차 시작 분
+  String get selectSminute => _selectSminute.value;
+  set selectSminute(String value) => _selectSminute.value = value;
+
+  final _selectEhours = '09'.obs;
+
+  ///연차 시작 시간
+  String get selectEhours => _selectEhours.value;
+  set selectEhours(String value) => _selectEhours.value = value;
+
+  final _selectEminute = '00'.obs;
+
+  ///연차 시작 분
+  String get selectEminute => _selectEminute.value;
+  set selectEminute(String value) => _selectEminute.value = value;
+
+  final _focusdate = DateTime.now().obs;
+
+  ///휴가날자
+  DateTime get focusdate => _focusdate.value;
+  set focusdate(DateTime value) => _focusdate.value = value;
 
   @override
   void onInit() {
     // TODO: implement onInit
     super.onInit();
-    vacationlist.addAll([
-      Vacation(
-        name: '이강훈',
-        vacationType: '0',
-      )
-    ]);
+    initdata();
   }
 
-  @override
-  Future<void> onReady() async {
-    // TODO: implement onReady
-    super.onReady();
-    // final res =
-    //     await DioHelper.kgetApi('/v3/game/playerList?gameSearch.position=포');
-    // res.data['body']['itemList'].forEach((e) {
-    //   PlayerInfo temp = PlayerInfo.fromJson(e as Map<String, dynamic>);
-    //   log('${e as Map<String, dynamic>}');
-    //   _playerlist.add(temp);
-    // });
-  }
-
-  void initleave() {
-    _singleleave.value = false;
-  }
-
-  void startleave() {
-    _pageindex.value = 2;
-    o3d.cameraTarget(0.1, -1.7, -8);
-  }
-
-  void startleavelist() {
-    _pageindex.value = 3;
-    o3d.cameraTarget(-2.5, -1, -8);
-  }
-
-  void close() {
-    _pageindex.value = 1;
-    singleleave = false;
-    o3d.cameraTarget(0, 0, 0);
+  void initdata() {
+    shour.clear();
+    ehour.clear();
+    sminute.clear();
+    ehour.clear();
+    _selecttype.value = '연차';
+    for (int i = 0; i < 24; i++) {
+      if (i < 10) {
+        shour.add('0$i');
+        ehour.add('0$i');
+      } else {
+        shour.add('$i');
+        ehour.add('$i');
+      }
+    }
+    for (int i = 0; i < 6; i++) {
+      if (i == 0) {
+        sminute.add('00');
+        eminute.add('00');
+      } else {
+        sminute.add('${i * 10}');
+        eminute.add('${i * 10}');
+      }
+    }
   }
 }

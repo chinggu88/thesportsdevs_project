@@ -23,7 +23,8 @@ class AppController extends GetxController {
         name: "이강훈",
         hireYear: '20221201',
         jobTitle: "Developer",
-        totalExperienceYears: 12,
-        remainingExperienceYears: 3);
+        leavedays: 10,
+        leavehours: 18,
+        leaveminuts: 10);
   }
 }

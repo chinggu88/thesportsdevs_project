@@ -19,13 +19,13 @@ Map<String, dynamic> _$PlayerInfoListToJson(PlayerInfoList instance) =>
     };
 
 PlayerInfo _$PlayerInfoFromJson(Map<String, dynamic> json) => PlayerInfo(
-      bACKNUM: json['BACKNUM'] as String?,
-      nAME: json['NAME'] as String?,
-      pLAYERIMG: json['PLAYERIMG'] as String?,
-      pOSITION: json['POSITION'] as String?,
-      pOSITION2: json['POSITION2'] as String?,
-      hITTYPE: json['HITTYPE'] as String?,
-      eNTRY: json['ENTRY'] as String?,
+      bACKNUM: json['bACKNUM'] as String?,
+      nAME: json['nAME'] as String?,
+      pLAYERIMG: json['pLAYERIMG'] as String?,
+      pOSITION: json['pOSITION'] as String?,
+      pOSITION2: json['pOSITION2'] as String?,
+      hITTYPE: json['hITTYPE'] as String?,
+      eNTRY: json['eNTRY'] as String?,
     );
 
 Map<String, dynamic> _$PlayerInfoToJson(PlayerInfo instance) =>

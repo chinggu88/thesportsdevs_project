@@ -1,10 +1,11 @@
 import 'dart:developer';
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hrm_project/constant/screen.dart';
 import 'package:hrm_project/controller/app_contoller.dart';
 import 'package:hrm_project/controller/workation_controller.dart';
-import 'package:o3d/o3d.dart';
+
 import 'package:table_calendar/table_calendar.dart';
 
 class workation_view extends GetView<workationcontroller> {
@@ -12,358 +13,452 @@ class workation_view extends GetView<workationcontroller> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: [
-          Container(
-            width: Get.size.width,
-            height: Get.size.height,
-            alignment: Alignment.center,
-            child: O3D(
-              controller: controller.o3d,
-              src: 'assets/models/low_poly_people_free_sample_pack.glb',
-              ar: false,
-              autoPlay: true,
-              cameraControls: false,
-              onWebViewCreated: (value) {},
-            ),
-          ),
-          Obx(() {
-            if (controller.pageindex == 1) {
-              return initpage();
-            } else if (controller.pageindex == 2) {
-              return leaverequest();
-            } else if (controller.pageindex == 3) {
-              return leavelist();
-            } else {
-              return initpage();
-            }
-          }),
-        ],
-      ),
-    );
-  }
-
-  //초기이미지
-  Widget initpage() {
-    return Container(
-      width: Get.size.width,
-      height: Get.size.height * 0.7,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          Container(
-            width: Get.size.width,
-            padding: EdgeInsets.only(left: 30.w, right: 30.w),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Container(
-                    color: Colors.black.withOpacity(0.65),
-                    child: Text(
-                      '이름 : ${AppController.to.user.name}',
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, color: Colors.white),
-                    )),
-                SizedBox(height: 5.w),
-                Container(
-                  color: Colors.black.withOpacity(0.65),
-                  child: Text(
-                    '입사일 : ${AppController.to.user.hireYear}',
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold, color: Colors.white),
-                  ),
-                ),
-                SizedBox(height: 5.w),
-                Container(
-                  color: Colors.black.withOpacity(0.65),
-                  child: Text(
-                    '총 연차 : ${AppController.to.user.totalExperienceYears}일',
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold, color: Colors.white),
-                  ),
-                ),
-                SizedBox(height: 5.w),
-                Container(
-                  color: Colors.black.withOpacity(0.65),
-                  child: Text(
-                    '남은 연차 : ${AppController.to.user.remainingExperienceYears}일',
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold, color: Colors.white),
-                  ),
-                ),
-                SizedBox(height: 5.w),
-              ],
-            ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              GestureDetector(
-                  onTap: () => controller.startleave(),
-                  child: Container(
-                      padding: EdgeInsets.all(10.w),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10.w),
-                          color: Colors.purpleAccent),
-                      child: Text('휴가신청'))),
-              SizedBox(
-                width: 50,
-              ),
-              GestureDetector(
-                  onTap: () => controller.startleavelist(),
-                  child: Container(
-                      padding: EdgeInsets.all(10.w),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10.w),
-                          color: Colors.purpleAccent),
-                      child: Text('휴가확인'))),
-              SizedBox(
-                width: 50,
-              ),
-              GestureDetector(
-                  onTap: () => controller.close(),
-                  child: Container(
-                      padding: EdgeInsets.all(10.w),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10.w),
-                          color: Colors.purpleAccent),
-                      child: Text('닫기'))),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  //휴가신청
-  Widget leaverequest() {
-    return Container(
-      padding: EdgeInsets.only(left: 30.w, right: 30.w),
-      width: Get.size.width,
-      // decoration: BoxDecoration(color: Colors.teal[200]),
-      child: Container(
+    return Padding(
+      padding: EdgeInsets.all(30.w),
+      child: SizedBox(
+        width: Get.size.width,
+        height: Get.size.height,
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Container(
-              color: Colors.black.withOpacity(0.65),
-              child: Text(
-                '연차 기간: 2022-12-26 ~ 2023-12-25',
-                style:
-                    TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
-              ),
-            ),
-            Container(
-              color: Colors.black.withOpacity(0.65),
-              child: Text(
-                '총: ${AppController.to.user.totalExperienceYears}일 / 사용: ${AppController.to.user.totalExperienceYears! - AppController.to.user.remainingExperienceYears!}일 / 잔여: ${AppController.to.user.remainingExperienceYears}일',
-                style:
-                    TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
-              ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            if (controller.singleleave) ...[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Container(
-                    color: Colors.black.withOpacity(0.65),
-                    child: Text(
-                      '${controller.leavedate.year}년 ${controller.leavedate.month}월 ${controller.leavedate.day}일',
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, color: Colors.white),
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: 40.w,
                     ),
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  GestureDetector(
-                      onTap: () => selectDate(),
-                      child: Container(
-                          padding: EdgeInsets.all(2.w),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5.w),
-                            color: Colors.black.withOpacity(0.65),
-                          ),
-                          child: Text(
-                            '날짜수정',
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white),
-                          ))),
-                ],
-              ),
-            ] else ...[
-              GestureDetector(
-                  onTap: () => selectDate(),
-                  child: Container(
-                      padding: EdgeInsets.all(10.w),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10.w),
-                          color: Colors.purpleAccent),
-                      child: Text('날짜선택'))),
-            ],
-            SizedBox(
-              height: 10,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                GestureDetector(
-                    onTap: () {
-                      Get.defaultDialog(
-                        title: "요청완료",
-                        content: Column(
-                          children: [
-                            Text(
-                                '${controller.leavedate.month}월 ${controller.leavedate.day}일 \n요청완료'),
-                          ],
-                        ),
-                        textConfirm: '확인',
-                        confirmTextColor: Colors.white,
-                        onConfirm: () {
-                          controller.singleleave = false;
-                          controller.leavedate = DateTime.now();
-                          Get.back();
-                          controller.close();
-                        },
-                      );
-                    },
-                    child: Container(
-                        padding: EdgeInsets.all(10.w),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10.w),
-                            color: Colors.purpleAccent),
-                        child: Text('요청하기'))),
-                SizedBox(
-                  width: 10.w,
+                    state(),
+                    SizedBox(
+                      height: 20.w,
+                    ),
+                    leavetype(),
+                    Obx(
+                      () {
+                        return controller.selecttype.contains('일차')
+                            ? leavetime()
+                            : leavedate();
+                      },
+                    )
+                  ],
                 ),
-                GestureDetector(
-                    onTap: () => controller.close(),
-                    child: Container(
-                        padding: EdgeInsets.all(10.w),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10.w),
-                            color: Colors.purpleAccent),
-                        child: Text('닫기'))),
-              ],
-            )
+              ),
+            ),
+            GestureDetector(
+              onTap: () {},
+              child: Container(
+                alignment: Alignment.center,
+                width: Get.size.width,
+                height: 50.w,
+                decoration: BoxDecoration(
+                    color: Colors.grey[400],
+                    borderRadius: BorderRadius.circular(10.w)),
+                child: Text(
+                  '신청',
+                  style: TextStyle(
+                    fontSize: 15.w,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ),
           ],
         ),
       ),
     );
   }
 
-  //휴가리스트
-  Widget leavelist() {
-    return Container(
-      width: Get.size.width,
-      height: Get.size.height * 0.5,
-      padding: EdgeInsets.only(left: 30.w),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          GestureDetector(
-              onTap: () {
-                selectlist();
-              },
-              child: Container(
-                  padding: EdgeInsets.all(10.w),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10.w),
-                      color: Colors.purpleAccent),
-                  child: Text('리스트'))),
-          GestureDetector(
-              onTap: () => controller.close(),
-              child: Container(
-                  padding: EdgeInsets.all(10.w),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10.w),
-                      color: Colors.purpleAccent),
-                  child: Text('닫기'))),
-        ],
-      ),
+  Obx state() {
+    return Obx(
+      () {
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              '${AppController.to.user.toJson()}님 \n남은연차는 ${AppController.to.user}일 입니다.',
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+                color: Colors.black54,
+              ),
+              overflow: TextOverflow.ellipsis,
+            ),
+          ],
+        );
+      },
     );
   }
 
-  selectlist() {
-    return Get.dialog(Material(
-      color: Colors.black.withOpacity(0.2),
-      child: Container(
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              SizedBox(height: 10.w),
-              SizedBox(height: 10.w),
-              Text('${controller.test}'),
-            ],
+  ///연차종류
+  Obx leavetype() {
+    return Obx(() {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          const Text(
+            '연차종류',
+            style: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.bold,
+              color: Colors.black54,
+            ),
+            overflow: TextOverflow.ellipsis,
           ),
-        ),
-      ),
-    ));
-  }
-
-  selectDate() {
-    return Get.bottomSheet(Obx(
-      () {
-        return Material(
-          child: Container(
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  SizedBox(height: 10.w),
-                  TableCalendar(
-                    firstDay: DateTime.now(),
-                    focusedDay: controller.leavedate,
-                    lastDay: DateTime.parse('${DateTime.now().year}1231'),
-                    onDaySelected: (selectedDay, focusedDay) {
-                      controller.leavedate = focusedDay;
-                    },
-                    selectedDayPredicate: ((day) {
-                      return day == controller.leavedate;
-                    }),
-                    calendarStyle: CalendarStyle(
-                      selectedDecoration: BoxDecoration(
-                          color: Colors.black, shape: BoxShape.circle),
-                    ),
-                  ),
-                  SizedBox(height: 10.w),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          controller.singleleave = true;
-                          Get.back();
-                        },
-                        child: Container(
-                          child: Text('확인'),
+          DropdownButtonHideUnderline(
+            child: DropdownButton2(
+              isExpanded: true,
+              items: controller.types
+                  .map((String item) => DropdownMenuItem<String>(
+                        value: item,
+                        child: Text(
+                          item,
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black54,
+                          ),
+                          overflow: TextOverflow.ellipsis,
                         ),
-                      ),
-                      SizedBox(width: 20.w),
-                      GestureDetector(
-                        onTap: () => Get.back(),
-                        child: Container(
-                          child: Text('취소'),
-                        ),
-                      ),
-                      SizedBox(width: 20.w),
-                    ],
-                  ),
-                  SizedBox(height: 20.w),
-                ],
+                      ))
+                  .toList(),
+              value: controller.selecttype,
+              onChanged: (value) {
+                if (value != null) {
+                  controller.selecttype = value;
+                  log(controller.selecttype);
+                }
+              },
+              buttonStyleData: ButtonStyleData(
+                height: 30.w,
+                width: 100.w,
+                padding: EdgeInsets.only(left: 14.w, right: 14.w),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5.w),
+                ),
+                elevation: 0,
+              ),
+              iconStyleData: const IconStyleData(
+                icon: Icon(
+                  Icons.arrow_forward_ios_outlined,
+                ),
+                iconSize: 14,
+                iconEnabledColor: Colors.black87,
+                iconDisabledColor: Colors.grey,
+              ),
+              dropdownStyleData: DropdownStyleData(
+                maxHeight: 200.w,
+                width: 100.w,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5.w),
+                  color: Colors.white,
+                ),
+                offset: Offset(0, -5.w),
+                scrollbarTheme: ScrollbarThemeData(
+                  radius: Radius.circular(40.w),
+                  thickness: MaterialStateProperty.all<double>(6),
+                  thumbVisibility: MaterialStateProperty.all<bool>(true),
+                ),
+              ),
+              menuItemStyleData: const MenuItemStyleData(
+                height: 40,
+                padding: EdgeInsets.only(left: 14, right: 14),
               ),
             ),
           ),
-        );
-      },
-    ));
+        ],
+      );
+    });
+  }
+
+  Obx leavedate() {
+    return Obx(() {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            '날짜선택',
+            style: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.bold,
+              color: Colors.black54,
+            ),
+            overflow: TextOverflow.ellipsis,
+          ),
+          SizedBox(height: 10.w),
+          TableCalendar(
+            focusedDay: controller.focusdate,
+            firstDay: DateTime.now(),
+            lastDay: DateTime(DateTime.now().year, 12, 31),
+            onDaySelected: (selectedDay, focusedDay) {
+              controller.focusdate = focusedDay;
+              log('asdf ${selectedDay} == ${controller.focusdate}');
+            },
+            selectedDayPredicate: ((day) {
+              return day == controller.focusdate;
+            }),
+            headerVisible: false,
+          ),
+        ],
+      );
+    });
+  }
+
+  Obx leavetime() {
+    return Obx(() {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          const Text(
+            '시간',
+            style: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.bold,
+              color: Colors.black54,
+            ),
+            overflow: TextOverflow.ellipsis,
+          ),
+          Container(
+            child: Row(children: [
+              DropdownButtonHideUnderline(
+                child: DropdownButton2(
+                  isExpanded: true,
+                  items: controller.shour
+                      .map((String item) => DropdownMenuItem<String>(
+                            value: item,
+                            child: Container(
+                              alignment: Alignment.center,
+                              child: Text(
+                                item,
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black54,
+                                ),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                          ))
+                      .toList(),
+                  value: controller.selectShours,
+                  onChanged: (value) {
+                    if (value != null) {
+                      controller.selectShours = value;
+                      log(controller.selectShours);
+                    }
+                  },
+                  buttonStyleData: ButtonStyleData(
+                    height: 30.w,
+                    width: 40.w,
+                    elevation: 0,
+                  ),
+                  iconStyleData: const IconStyleData(
+                    iconSize: 0,
+                  ),
+                  dropdownStyleData: DropdownStyleData(
+                    maxHeight: 200.w,
+                    width: 50.w,
+                    offset: Offset(0, -5.w),
+                    scrollbarTheme: ScrollbarThemeData(
+                      radius: Radius.circular(40.w),
+                      thickness: MaterialStateProperty.all<double>(6),
+                      thumbVisibility: MaterialStateProperty.all<bool>(true),
+                    ),
+                  ),
+                  menuItemStyleData: const MenuItemStyleData(
+                    height: 40,
+                    padding: EdgeInsets.only(left: 14, right: 14),
+                  ),
+                ),
+              ),
+              const Text(
+                ' : ',
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black54,
+                ),
+                overflow: TextOverflow.ellipsis,
+              ),
+              DropdownButtonHideUnderline(
+                child: DropdownButton2(
+                  isExpanded: true,
+                  items: controller.sminute
+                      .map((String item) => DropdownMenuItem<String>(
+                            value: item,
+                            child: Container(
+                              alignment: Alignment.center,
+                              child: Text(
+                                item,
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black54,
+                                ),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                          ))
+                      .toList(),
+                  value: controller.selectSminute,
+                  onChanged: (value) {
+                    if (value != null) {
+                      controller.selectSminute = value;
+                    }
+                  },
+                  buttonStyleData: ButtonStyleData(
+                    height: 30.w,
+                    width: 40.w,
+                    elevation: 0,
+                  ),
+                  iconStyleData: const IconStyleData(
+                    iconSize: 0,
+                  ),
+                  dropdownStyleData: DropdownStyleData(
+                    maxHeight: 200.w,
+                    width: 50.w,
+                    offset: Offset(0, -5.w),
+                    scrollbarTheme: ScrollbarThemeData(
+                      radius: Radius.circular(40.w),
+                      thickness: MaterialStateProperty.all<double>(6),
+                      thumbVisibility: MaterialStateProperty.all<bool>(true),
+                    ),
+                  ),
+                  menuItemStyleData: const MenuItemStyleData(
+                    height: 40,
+                    padding: EdgeInsets.only(left: 14, right: 14),
+                  ),
+                ),
+              ),
+              const Text(
+                '~',
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black54,
+                ),
+                overflow: TextOverflow.ellipsis,
+              ),
+              DropdownButtonHideUnderline(
+                child: DropdownButton2(
+                  isExpanded: true,
+                  items: controller.ehour
+                      .map((String item) => DropdownMenuItem<String>(
+                            value: item,
+                            child: Container(
+                              alignment: Alignment.center,
+                              child: Text(
+                                item,
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black54,
+                                ),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                          ))
+                      .toList(),
+                  value: controller.selectEhours,
+                  onChanged: (value) {
+                    if (value != null) {
+                      controller.selectEhours = value;
+                      log(controller.selectEhours);
+                    }
+                  },
+                  buttonStyleData: ButtonStyleData(
+                    height: 30.w,
+                    width: 50.w,
+                    elevation: 0,
+                  ),
+                  iconStyleData: const IconStyleData(
+                    iconSize: 0,
+                  ),
+                  dropdownStyleData: DropdownStyleData(
+                    maxHeight: 200.w,
+                    width: 50.w,
+                    offset: Offset(0, -5.w),
+                    scrollbarTheme: ScrollbarThemeData(
+                      radius: Radius.circular(40.w),
+                      thickness: MaterialStateProperty.all<double>(6),
+                      thumbVisibility: MaterialStateProperty.all<bool>(true),
+                    ),
+                  ),
+                  menuItemStyleData: const MenuItemStyleData(
+                    height: 40,
+                    padding: EdgeInsets.only(left: 14, right: 14),
+                  ),
+                ),
+              ),
+              const Text(
+                ' : ',
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black54,
+                ),
+                overflow: TextOverflow.ellipsis,
+              ),
+              DropdownButtonHideUnderline(
+                child: DropdownButton2(
+                  isExpanded: true,
+                  items: controller.eminute
+                      .map((String item) => DropdownMenuItem<String>(
+                            value: item,
+                            child: Container(
+                              alignment: Alignment.center,
+                              child: Text(
+                                item,
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black54,
+                                ),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                          ))
+                      .toList(),
+                  value: controller.selectEminute,
+                  onChanged: (value) {
+                    if (value != null) {
+                      controller.selectEminute = value;
+                      log(controller.selectEhours);
+                    }
+                  },
+                  buttonStyleData: ButtonStyleData(
+                    height: 30.w,
+                    width: 40.w,
+                    elevation: 0,
+                  ),
+                  iconStyleData: const IconStyleData(
+                    iconSize: 0,
+                  ),
+                  dropdownStyleData: DropdownStyleData(
+                    maxHeight: 200.w,
+                    width: 50.w,
+                    // decoration: BoxDecoration(
+                    //   borderRadius: BorderRadius.circular(5.w),
+                    //   color: Colors.white,
+                    // ),
+                    offset: Offset(0, -5.w),
+                    scrollbarTheme: ScrollbarThemeData(
+                      radius: Radius.circular(40.w),
+                      thickness: MaterialStateProperty.all<double>(6),
+                      thumbVisibility: MaterialStateProperty.all<bool>(true),
+                    ),
+                  ),
+                  menuItemStyleData: const MenuItemStyleData(
+                    height: 40,
+                    padding: EdgeInsets.only(left: 14, right: 14),
+                  ),
+                ),
+              ),
+            ]),
+          )
+        ],
+      );
+    });
   }
 }

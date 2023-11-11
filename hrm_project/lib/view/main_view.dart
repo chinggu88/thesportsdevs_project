@@ -13,9 +13,6 @@ class MainView extends GetView<MainController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Main'),
-      ),
       body: Obx(
         () {
           return Center(
