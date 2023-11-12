@@ -6,7 +6,7 @@ import 'package:hrm_project/controller/workation_controller.dart';
 import 'package:hrm_project/controller/main_controller.dart';
 import 'package:hrm_project/firebase_options.dart';
 import 'package:hrm_project/view/main_view.dart';
-import 'package:hrm_project/view/workation_view.dart';
+import 'package:hrm_project/view/leave/leaverequest_view.dart';
 
 void main() async {
   // firebase init
@@ -27,5 +27,9 @@ void main() async {
               Get.put(MainController(), permanent: true);
               Get.put(workationcontroller(), permanent: true);
             })),
+        GetPage(
+            name: '/leavsrequest',
+            page: () => leaverequest_view(),
+            binding: BindingsBuilder(() {})),
       ]));
 }

@@ -19,12 +19,11 @@ class AppController extends GetxController {
   void onInit() {
     // TODO: implement onInit
     super.onInit();
-    user = Userinfo(
-        name: "이강훈",
-        hireYear: '20221201',
-        jobTitle: "Developer",
-        leavedays: 10,
-        leavehours: 18,
-        leaveminuts: 10);
+    user = Userinfo.fromJson({
+      'name': '이강훈',
+      'hireYear': '20221201',
+      'jobTitle': "Developer",
+      'leaveminuts': 20380
+    });
   }
 }

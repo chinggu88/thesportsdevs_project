@@ -4,12 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hrm_project/controller/app_contoller.dart';
 import 'package:hrm_project/controller/main_controller.dart';
+import 'package:hrm_project/view/leave/leavestate_view.dart';
 import 'package:hrm_project/view/tempview.dart';
-import 'package:hrm_project/view/workation_view.dart';
+import 'package:hrm_project/view/leave/leaverequest_view.dart';
 
 class MainView extends GetView<MainController> {
   MainView({super.key});
-  List<Widget> maincontent = [Tempview(), workation_view()];
+  List<Widget> maincontent = [Tempview(), leavestate_view()];
   @override
   Widget build(BuildContext context) {
     return Scaffold(

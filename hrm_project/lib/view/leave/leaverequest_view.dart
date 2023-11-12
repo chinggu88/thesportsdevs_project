@@ -2,92 +2,89 @@ import 'dart:developer';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hrm_project/constant/function.dart';
 import 'package:hrm_project/constant/screen.dart';
 import 'package:hrm_project/controller/app_contoller.dart';
 import 'package:hrm_project/controller/workation_controller.dart';
 
 import 'package:table_calendar/table_calendar.dart';
 
-class workation_view extends GetView<workationcontroller> {
-  workation_view({super.key});
+class leaverequest_view extends GetView<workationcontroller> {
+  leaverequest_view({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.all(30.w),
-      child: SizedBox(
-        width: Get.size.width,
-        height: Get.size.height,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Container(
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: 40.w,
-                    ),
-                    state(),
-                    SizedBox(
-                      height: 20.w,
-                    ),
-                    leavetype(),
-                    Obx(
-                      () {
-                        return controller.selecttype.contains('일차')
-                            ? leavetime()
-                            : leavedate();
-                      },
-                    )
-                  ],
-                ),
-              ),
-            ),
-            GestureDetector(
-              onTap: () {},
-              child: Container(
-                alignment: Alignment.center,
-                width: Get.size.width,
-                height: 50.w,
-                decoration: BoxDecoration(
-                    color: Colors.grey[400],
-                    borderRadius: BorderRadius.circular(10.w)),
-                child: Text(
-                  '신청',
-                  style: TextStyle(
-                    fontSize: 15.w,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          '연차신청',
+          style: TextStyle(color: Colors.black87),
+        ),
+        leading: GestureDetector(
+          onTap: () {
+            Get.back();
+          },
+          child: Icon(
+            Icons.arrow_back_ios,
+            color: Colors.black,
+          ),
+        ),
+        backgroundColor: Colors.white,
+        elevation: 0,
+      ),
+      body: Padding(
+        padding: EdgeInsets.only(left: 30.w, right: 30.w, bottom: 30.w),
+        child: SizedBox(
+          width: Get.size.width,
+          height: Get.size.height,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: 20.w,
+                      ),
+                      leavetype(),
+                      Obx(
+                        () {
+                          return controller.selecttype.contains('일차')
+                              ? leavetime()
+                              : leavedate();
+                        },
+                      )
+                    ],
                   ),
-                  overflow: TextOverflow.ellipsis,
                 ),
               ),
-            ),
-          ],
+              GestureDetector(
+                onTap: () {
+                  confirm();
+                },
+                child: Container(
+                  alignment: Alignment.center,
+                  width: Get.size.width,
+                  height: 50.w,
+                  decoration: BoxDecoration(
+                      color: Colors.grey[400],
+                      borderRadius: BorderRadius.circular(10.w)),
+                  child: Text(
+                    '신청',
+                    style: TextStyle(
+                      fontSize: 15.w,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
-    );
-  }
-
-  Obx state() {
-    return Obx(
-      () {
-        return Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              '${AppController.to.user.toJson()}님 \n남은연차는 ${AppController.to.user}일 입니다.',
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.bold,
-                color: Colors.black54,
-              ),
-              overflow: TextOverflow.ellipsis,
-            ),
-          ],
-        );
-      },
     );
   }
 
@@ -460,5 +457,36 @@ class workation_view extends GetView<workationcontroller> {
         ],
       );
     });
+  }
+
+  Future<void> confirm() {
+    return showDialog(
+        context: Get.context!,
+        builder: (BuildContext context) {
+          return Dialog(
+            child: Container(
+              height: 200.w,
+              padding: EdgeInsets.all(20.w),
+              child: Column(
+                children: [
+                  Text('연차신청'),
+                  Text('연차 종류 : ${controller.selecttype}'),
+                  Text('연차 시간 : ${controller.focusdate}'),
+                  Text('연차 소진 : 60분'),
+                  Row(
+                    children: [
+                      TextButton(onPressed: () {}, child: Text('확인')),
+                      TextButton(
+                          onPressed: () {
+                            Get.back();
+                          },
+                          child: Text('취소'))
+                    ],
+                  )
+                ],
+              ),
+            ),
+          );
+        });
   }
 }
