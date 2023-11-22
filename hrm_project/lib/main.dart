@@ -5,6 +5,7 @@ import 'package:hrm_project/bindings/initBinding.dart';
 import 'package:hrm_project/controller/workation_controller.dart';
 import 'package:hrm_project/controller/main_controller.dart';
 import 'package:hrm_project/firebase_options.dart';
+import 'package:hrm_project/view/leave/testview.dart';
 import 'package:hrm_project/view/main_view.dart';
 import 'package:hrm_project/view/leave/leaverequest_view.dart';
 
@@ -30,6 +31,10 @@ void main() async {
         GetPage(
             name: '/leavsrequest',
             page: () => leaverequest_view(),
+            binding: BindingsBuilder(() {})),
+        GetPage(
+            name: '/test',
+            page: () => test_view(),
             binding: BindingsBuilder(() {})),
       ]));
 }

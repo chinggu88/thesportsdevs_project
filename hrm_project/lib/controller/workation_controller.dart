@@ -100,13 +100,37 @@ class workationcontroller extends GetxController {
   DateTime get focusdate => _focusdate.value;
   set focusdate(DateTime value) => _focusdate.value = value;
 
+  final _leaveslist = <Vacation>[].obs;
+
+  ///휴가리스트
+  List<Vacation> get leaveslist => _leaveslist;
+  set leaveslist(List<Vacation> value) {
+    _leaveslist.clear();
+    _leaveslist.addAll(value);
+  }
+
+  final _earlyleavs = 0.obs;
+
+  ///연차 예정
+  int get earlyleavs => _earlyleavs.value;
+  set earlyleavs(int value) => _earlyleavs.value = value;
+
+  final _holdleavs = 0.obs;
+
+  ///연차 대기
+  int get holdleavs => _holdleavs.value;
+  set holdleavs(int value) => _holdleavs.value = value;
+
   @override
   void onInit() {
     // TODO: implement onInit
     super.onInit();
     initdata();
+    setdumydata();
+    countleaves();
   }
 
+  ///초기화
   void initdata() {
     shour.clear();
     ehour.clear();
@@ -131,5 +155,86 @@ class workationcontroller extends GetxController {
         eminute.add('${i * 10}');
       }
     }
+  }
+
+  void countleaves() {
+    earlyleavs = 0;
+    _leaveslist.forEach((e) {
+      if (e.approve! && DateTime.now().isBefore(DateTime.parse(e.startDay!))) {
+        earlyleavs++;
+      }
+    });
+  }
+
+  void countholdleaves() {
+    holdleavs = 0;
+    _leaveslist.forEach((e) {
+      if (!e.approve!) {
+        holdleavs++;
+      }
+    });
+  }
+
+  void setdumydata() {
+    _leaveslist.add(Vacation.fromJson({
+      'name': '이강훈',
+      'vacationType': '연차',
+      'startDay': '2023-12-12',
+      'endDay': '2023-12-12',
+      'approve': true,
+      'insertdate': '2023-02-25'
+    }));
+    _leaveslist.add(Vacation.fromJson({
+      'name': '이강훈',
+      'vacationType': '연차',
+      'startDay': '2023-03-03',
+      'endDay': '2023-03-04',
+      'approve': true,
+      'insertdate': '2023-02-25'
+    }));
+    _leaveslist.add(Vacation.fromJson({
+      'name': '이강훈',
+      'vacationType': '교육 및 훈련',
+      'startDay': '2023-04-04',
+      'endDay': '2023-04-05',
+      'approve': true,
+      'insertdate': '2023-03-25'
+    }));
+    _leaveslist.add(Vacation.fromJson({
+      'name': '이강훈',
+      'vacationType': '공가',
+      'startDay': '2023-04-12',
+      'endDay': '2023-04-13',
+      'approve': true,
+      'insertdate': '2023-03-26'
+    }));
+    _leaveslist.add(Vacation.fromJson({
+      'name': '이강훈',
+      'vacationType': '병가',
+      'startDay': '2023-05-03',
+      'endDay': '2023-05-04',
+      'approve': true,
+      'insertdate': '2023-05-03'
+    }));
+    _leaveslist.add(Vacation.fromJson({
+      'name': '이강훈',
+      'vacationType': '오후반차',
+      'startDay': '2023-06-09',
+      'endDay': '2023-06-09',
+      'startTime': '14:00',
+      'endTime': '18:00',
+      'approve': true,
+      'insertdate': '2023-05-03'
+    }));
+    _leaveslist.add(Vacation.fromJson({
+      'name': '이강훈',
+      'vacationType': '오전반차',
+      'startDay': '2023-06-10',
+      'endDay': '2023-06-10',
+      'startTime': '09:00',
+      'endTime': '13:00',
+      'approve': true,
+      'insertdate': '2023-05-03'
+    }));
   }
 }

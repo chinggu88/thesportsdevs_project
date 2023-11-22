@@ -6,6 +6,7 @@ import 'package:hrm_project/constant/function.dart';
 import 'package:hrm_project/constant/screen.dart';
 import 'package:hrm_project/controller/app_contoller.dart';
 import 'package:hrm_project/controller/workation_controller.dart';
+import 'package:hrm_project/model/vacation.dart';
 
 import 'package:table_calendar/table_calendar.dart';
 
@@ -475,7 +476,29 @@ class leaverequest_view extends GetView<workationcontroller> {
                   Text('연차 소진 : 60분'),
                   Row(
                     children: [
-                      TextButton(onPressed: () {}, child: Text('확인')),
+                      TextButton(
+                          onPressed: () {
+                            controller.leaveslist.insert(
+                                0,
+                                Vacation.fromJson({
+                                  'name': '이강훈',
+                                  'vacationType': '${controller.selecttype}',
+                                  'startDay':
+                                      '${controller.focusdate.year}-${controller.focusdate.month}-${controller.focusdate.day}',
+                                  'endDay':
+                                      '${controller.focusdate.year}-${controller.focusdate.month}-${controller.focusdate.day}',
+                                  'startTime':
+                                      '${controller.selectShours}:${controller.selectSminute}',
+                                  'endTime':
+                                      '${controller.selectEhours}:${controller.selectEminute}',
+                                  'approve': false,
+                                  'insertdate': '${DateTime.now()}'
+                                }));
+                            controller.countholdleaves();
+                            Get.back();
+                            Get.back();
+                          },
+                          child: Text('확인')),
                       TextButton(
                           onPressed: () {
                             Get.back();

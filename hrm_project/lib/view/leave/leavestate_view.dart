@@ -23,12 +23,40 @@ class leavestate_view extends GetView<workationcontroller> {
                   SizedBox(height: 40.w),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: [state(), SizedBox(width: 10.w), earlyleaves()],
+                    children: [
+                      state(),
+                      SizedBox(width: 10.w),
+                      earlyleaves(),
+                      SizedBox(width: 10.w),
+                      holdleaves()
+                    ],
                   )
                 ],
               ),
             ),
-            Expanded(child: Container()),
+            Expanded(child: listview()),
+            GestureDetector(
+              onTap: () {
+                Get.toNamed('/test');
+              },
+              child: Container(
+                alignment: Alignment.center,
+                width: Get.size.width,
+                height: 50.w,
+                decoration: BoxDecoration(
+                    color: Colors.grey[400],
+                    borderRadius: BorderRadius.circular(10.w)),
+                child: Text(
+                  'ai',
+                  style: TextStyle(
+                    fontSize: 15.w,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ),
             GestureDetector(
               onTap: () {
                 Get.toNamed('/leavsrequest');
@@ -93,34 +121,123 @@ class leavestate_view extends GetView<workationcontroller> {
     );
   }
 
-  Widget earlyleaves() {
-    return Container(
-      padding: EdgeInsets.all(10.w),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10.w), color: Colors.greenAccent),
-      child: Column(
-        children: [
-          Text(
-            '0건',
-            style: TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.bold,
-              color: Colors.black54,
+  Obx earlyleaves() {
+    return Obx(() {
+      return Container(
+        padding: EdgeInsets.all(10.w),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10.w),
+            color: Colors.greenAccent),
+        child: Column(
+          children: [
+            Text(
+              '${controller.earlyleavs}건',
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+                color: Colors.black54,
+              ),
+              overflow: TextOverflow.ellipsis,
             ),
-            overflow: TextOverflow.ellipsis,
-          ),
-          SizedBox(height: 10.w),
-          Text(
-            '에정연차',
-            style: TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.bold,
-              color: Colors.black54,
+            SizedBox(height: 10.w),
+            Text(
+              '에정연차',
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+                color: Colors.black54,
+              ),
+              overflow: TextOverflow.ellipsis,
             ),
-            overflow: TextOverflow.ellipsis,
-          ),
-        ],
-      ),
-    );
+          ],
+        ),
+      );
+    });
+  }
+
+  Obx holdleaves() {
+    return Obx(() {
+      return Container(
+        padding: EdgeInsets.all(10.w),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10.w),
+            color: Colors.greenAccent),
+        child: Column(
+          children: [
+            Text(
+              '${controller.holdleavs}건',
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+                color: Colors.black54,
+              ),
+              overflow: TextOverflow.ellipsis,
+            ),
+            SizedBox(height: 10.w),
+            Text(
+              '대기연차',
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+                color: Colors.black54,
+              ),
+              overflow: TextOverflow.ellipsis,
+            ),
+          ],
+        ),
+      );
+    });
+  }
+
+  Obx listview() {
+    return Obx(() {
+      return SingleChildScrollView(
+        child: Column(
+          children: [
+            for (var i in controller.leaveslist) ...[
+              if (i.vacationType == '일차') ...[
+                SizedBox(height: 10.w),
+                Row(
+                  children: [
+                    Text('${i.vacationType}'),
+                    SizedBox(
+                      width: 10.w,
+                    ),
+                    Text('${i.startDay}'),
+                    SizedBox(
+                      width: 10.w,
+                    ),
+                    Text('${i.startTime}'),
+                    SizedBox(
+                      width: 10.w,
+                    ),
+                    Text('${i.endTime}'),
+                    SizedBox(
+                      width: 10.w,
+                    ),
+                    if (i.approve!) ...[Text('승인완료')] else ...[Text('승인대기')]
+                  ],
+                ),
+              ] else ...[
+                SizedBox(height: 10.w),
+                Row(
+                  children: [
+                    Text('${i.vacationType}'),
+                    SizedBox(
+                      width: 10.w,
+                    ),
+                    Text('${i.startDay}'),
+                    SizedBox(
+                      width: 10.w,
+                    ),
+                    if (i.approve!) ...[Text('승인완료')] else ...[Text('승인대기')]
+                  ],
+                ),
+              ]
+            ]
+          ],
+        ),
+      );
+    });
   }
 }
